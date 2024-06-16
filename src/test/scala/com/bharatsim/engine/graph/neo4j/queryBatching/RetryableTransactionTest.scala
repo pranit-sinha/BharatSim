@@ -5,6 +5,7 @@ import org.neo4j.driver.exceptions.ClientException
 import org.neo4j.driver.{AccessMode, Record, Session}
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
+import java.util.Arrays
 
 import scala.jdk.CollectionConverters.MapHasAsJava
 
@@ -14,7 +15,7 @@ class RetryableTransactionTest extends AnyFunSuite with MockitoSugar with Argume
   test("should execute read transactions") {
     val mockSession = mock[Session]
     val groupedQuery = GroupedQuery("query", Map.empty[String, Object].asJava, List.empty)
-    val records = java.util.List.of(mock[Record])
+    val records = java.util.Collections.unmodifiableList(Arrays.asList(mock[Record]))
     when(mockSession.readTransaction[java.util.List[Record]](any)).thenReturn(records)
     val result =
       new RetryableTransaction(maxRetry)
@@ -29,7 +30,7 @@ class RetryableTransactionTest extends AnyFunSuite with MockitoSugar with Argume
   test("should execute write transactions") {
     val mockSession = mock[Session]
     val groupedQuery = GroupedQuery("query", Map.empty[String, Object].asJava, List.empty)
-    val records = java.util.List.of(mock[Record])
+    val records = java.util.Collections.unmodifiableList(Arrays.asList(mock[Record]))
     when(mockSession.writeTransaction[java.util.List[Record]](any)).thenReturn(records)
     val result =
       new RetryableTransaction(maxRetry)
