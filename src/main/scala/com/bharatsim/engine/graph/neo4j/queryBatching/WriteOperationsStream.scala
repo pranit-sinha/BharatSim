@@ -44,7 +44,7 @@ class WriteOperationsStream(neo4jConnection: Driver, config: ApplicationConfig =
             if (result.hasNext)
               promise.success(result.next())
             else {
-              promise.success(new InternalRecord(java.util.List.of[String](), Array()))
+              promise.success(new InternalRecord(java.util.Collections.emptyList[String](), Array()))
             }
           })
         case gqError: GroupedQueryError =>

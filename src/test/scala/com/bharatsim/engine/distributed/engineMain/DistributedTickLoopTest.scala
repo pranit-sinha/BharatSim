@@ -33,13 +33,13 @@ class DistributedTickLoopTest
 
   val mockGraphProvider = mock[BatchNeo4jProvider]
 
-  val localBookmark = DBBookmark(java.util.Set.of("localBK"))
+  val localBookmark = DBBookmark(java.util.Collections.singleton("localBK"))
   val workerCoordinator = mock[WorkerCoordinator]
 
   val context = spy(Context(mockGraphProvider))
 
   val workerCount = 1
-  val bookmarks = List(DBBookmark(java.util.Set.of("b1")))
+  val bookmarks = List(DBBookmark(java.util.Collections.singleton("b1")))
   val tick = 1
   val agentLabels = List("A1")
 
@@ -210,7 +210,7 @@ class DistributedTickLoopTest
     it("should finish works when all worker are done") {
       val actions = mockActions()
       val testKit = BehaviorTestKit(DistributedTickLoop(context, actions, tick, bookmarks, workerCoordinator))
-      val workerBookmark = DBBookmark(java.util.Set.of("wbk1"))
+      val workerBookmark = DBBookmark(java.util.Collections.singleton("wbk1"))
       testKit.run(ExecuteWrites)
       val effects = testKit.retrieveAllEffects()
 
@@ -275,7 +275,7 @@ class DistributedTickLoopTest
     it("should switch to next tick") {
       val actions = mockActions()
       val testKit = BehaviorTestKit(DistributedTickLoop(context, actions, tick, bookmarks, workerCoordinator))
-      val bookmarkAfterTickFinished = List(DBBookmark(java.util.Set.of("Tick1 bookmarks")))
+      val bookmarkAfterTickFinished = List(DBBookmark(java.util.Collections.singleton("Tick1 bookmarks")))
 
       testKit.run(WriteFinished(bookmarkAfterTickFinished))
 

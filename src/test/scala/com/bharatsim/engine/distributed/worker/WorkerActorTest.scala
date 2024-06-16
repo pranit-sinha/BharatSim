@@ -130,7 +130,7 @@ class WorkerActorTest
         val workerActor = new WorkerActor(mockAgentProcessor).start(simDef, context)
         val workerTestKit = BehaviorTestKit(workerActor)
         val contextData = ContextData(10, Set("test"))
-        val bookmarks = List(DBBookmark(java.util.Set.of("BK1")))
+        val bookmarks = List(DBBookmark(java.util.Collections.singleton("BK1")))
         workerTestKit.run(StartOfNewTick(contextData, bookmarks, tickLoop.ref))
         tickLoop.expectMessage(StartOfNewTickAck())
         verify(mockGraphProvider).setBookmarks(bookmarks)
@@ -143,7 +143,7 @@ class WorkerActorTest
       it("should execute pending writes and reply with bookmarks") {
         val barrier = TestInbox[Barrier.Request]()
         val workerActor = new WorkerActor(mockAgentProcessor).start(simDef, context)
-        val bookmark = DBBookmark(java.util.Set.of("BK1"))
+        val bookmark = DBBookmark(java.util.Collections.singleton("BK1"))
 
         when(mockGraphProvider.executePendingWrites(any)).thenReturn(Future.successful(bookmark))
         val workerTestKit = BehaviorTestKit(workerActor)

@@ -68,7 +68,7 @@ class ReadOperationsStream(neo4jConnection: Driver, config: ApplicationConfig = 
         p.success(result.next())
       } else {
         logger.warn("GroupQueryResult: number of records is less than number of queries")
-        p.success(new InternalRecord(java.util.List.of[String](), Array()))
+        p.success(new InternalRecord(java.util.Collections.emptyList[String](), Array()))
       }
     })
   }

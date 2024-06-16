@@ -31,7 +31,7 @@ class WorkerCoordinatorTest
   val workDistributor = testKit.createTestProbe[WorkDistributor.Command]()
   val mockGraphProvider = mock[BatchNeo4jProvider]
   val context = Context(mockGraphProvider)
-  val bookmarks = List(DBBookmark(java.util.Set.of("bk")))
+  val bookmarks = List(DBBookmark(java.util.Collections.singleton("bk")))
 
   val mockedWorkerBehavior = Behaviors.receiveMessage[WorkerActor.Command] { msg =>
     msg match {

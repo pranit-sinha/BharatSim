@@ -22,12 +22,12 @@ class BarrierTest extends AnyFunSuite with BeforeAndAfterAll with Matchers {
     val inbox = TestInbox[Barrier.Reply]()
     val testKit = BehaviorTestKit(Barrier(0, 2, inbox.ref))
 
-    val res1 = DBBookmark(util.Set.of("1"))
+    val res1 = DBBookmark(util.Collections.singleton("1"))
     testKit.run(WorkFinished(Some(res1)))
     testKit.isAlive shouldBe true
     inbox.hasMessages shouldBe false
 
-    val res2 = DBBookmark(util.Set.of("2"))
+    val res2 = DBBookmark(util.Collections.singleton("2"))
 
     testKit.run(WorkFinished(Some(res2)))
     testKit.isAlive shouldBe false
